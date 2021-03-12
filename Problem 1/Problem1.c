@@ -8,7 +8,10 @@ int main(int argc, char const *argv[]) {
     }
     
     const char* writeFile = (argc > 3) ? argv[--argc]: "myfile.out";
-    int fd = open(writeFile, O_WRONLY | O_CREAT);
+    int fd; if((fd = open(writeFile, O_WRONLY | O_CREAT, 0666)) == -1){
+        printf("Could not open output file - %s\n", writeFile);
+        return 0;
+    }
 
     int i; for(i = 1; i < argc; i++) {
         CopyFile(fd, argv[i]);
