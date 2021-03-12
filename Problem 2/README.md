@@ -1,6 +1,6 @@
 ## Problem 2
 
-### main.c
+### prob.c
 This file works by having two arguments other than filename, and generates text file 
 required to be processed in this problem.  
 

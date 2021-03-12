@@ -10,7 +10,7 @@ else
 	DelCom=rm
 endif
 
-_OBJ = utils.o
+_OBJ = utils.o solver.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 directories:
@@ -19,7 +19,7 @@ directories:
 $(ODIR)/%.o: $(SRC)/%.c
 	$(CC) -c -o $@ $^ $(FLAGS)
 
-prob2: main.c $(OBJ)
+prob2: prob2.c $(OBJ)
 	$(CC) -o $@ $^ $(FLAGS)
 
 all: directories prob2
