@@ -28,7 +28,7 @@ void CopyFile(int fd, const char *file_in) {
     char buff[2048];
 
     int bytesRead = 0;
-    while((bytesRead = read(cfd, buff, 2048)) > 1) {
+    while((bytesRead = read(cfd, buff, 2048)) >= 1) {
         WriteInFile(fd, buff, bytesRead);
     }
 }
