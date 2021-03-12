@@ -16,6 +16,8 @@ int main(int argc, char const *argv[]) {
     int i; for(i = 1; i < argc; i++) {
         CopyFile(fd, argv[i]);
     }
+
+    close(fd);
     printf("Copied found files into %s\n", writeFile);
     return 1;
 }
@@ -31,6 +33,8 @@ void CopyFile(int fd, const char *file_in) {
     while((bytesRead = read(cfd, buff, 2048)) >= 1) {
         WriteInFile(fd, buff, bytesRead);
     }
+    
+    close(cfd);
 }
 
 void WriteInFile(int fd, const char *buff, int len) {
