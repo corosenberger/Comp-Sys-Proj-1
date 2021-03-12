@@ -8,7 +8,7 @@ int main(int argc, char const *argv[]) {
     }
     
     const char* writeFile = (argc > 3) ? argv[--argc]: "myfile.out";
-    int fd; if((fd = open(writeFile, O_WRONLY | O_CREAT, 0777)) == -1){
+    int fd; if((fd = open(writeFile, O_WRONLY | O_CREAT | O_APPEND, 0777)) == -1){
         printf("Could not open output file - %s\n", writeFile);
         return 0;
     }
