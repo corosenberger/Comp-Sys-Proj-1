@@ -1,6 +1,8 @@
-
+ODIR=obj
+SRC = src
+INC = include
 CC=gcc
-FLAGS=
+FLAGS=-I$(INC)
 
 ifeq ($(OS),Windows_NT)
 	DelCom=del
@@ -8,12 +10,22 @@ else
 	DelCom=rm
 endif
 
-filegen: filegen.c 
+_OBJ = utils.o
+OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
+
+directories:
+	mkdir -p $(ODIR)
+
+$(ODIR)/%.o: $(SRC)/%.c
+	$(CC) -c -o $@ $^ $(FLAGS)
+
+prob2: main.c $(OBJ)
 	$(CC) -o $@ $^ $(FLAGS)
 
-all: filegen
+all: directories prob2
 
-.PHONY: clean 
+.PHONY: clean directories
 
 clean:
-	$(DelCom) Problem1.o
+	$(DelCom) -f $(ODIR)/*.o
+	$(DelCom) prob2
