@@ -11,6 +11,7 @@
 #include <sys/ipc.h>     /* general SysV IPC structures          */
 #include <sys/sem.h>	 /* semaphore functions and structs.     */
 #include <sys/shm.h>	 /* shared memory functions and structs. */
+#include <stdbool.h>
 #include "solver.h"
 
 int argvtoint(char* arg); //function to convert argument values into integer

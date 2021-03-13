@@ -33,6 +33,9 @@ int main(int argc, char* argv[]){
 		exit(1);
 	}
 
+	clock_t start, end;
+    double cpu_time_used;
+
 
 	printf("Generating Data with L = %d, and H = %d. . . .\n\n",  L, H);
 	data_generator(L, H);
@@ -42,16 +45,39 @@ int main(int argc, char* argv[]){
 	data_loader(L, data);
 
 	printf("Solving with One Process . . . .\n");
+	start = clock();
 	results = solver_oneprocess(L, data);
+	end = clock();
+	cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+	printf("TIME TAKEN: %.8f\n", cpu_time_used);
 	print_sol(results);
+	
 
 	printf("Solving with DFS Approach with NP = %d . . . .\n", NP);
+	start = clock();
 	results = solver_DFS(L, data, NP);
+	end = clock();
+	cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+	printf("TIME TAKEN: %.8f\n", cpu_time_used);
 	print_sol(results);
+	
 
 	printf("Solving with Multi-Process Approach with NP = %d, X = %d . . . .\n", NP, X);
+	start = clock();
 	results = solver_multiprocess(L, data, NP, X);
+	end = clock();
+	cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+	printf("TIME TAKEN: %.8f\n", cpu_time_used);
 	print_sol(results);
+
+	int num_hidden = 0;
+	printf("Only Finding H with NP = %d, X = %d . . . .\n", NP, X);
+	start = clock();
+	num_hidden = solver_onlyH(L, data, NP, X, H);
+	end = clock();
+	cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+	printf("TIME TAKEN: %.8f\n", cpu_time_used);
+	printf("NUM_HIDDEN: %d\n\n", num_hidden);
 
 	free(data);
 	return 0;
