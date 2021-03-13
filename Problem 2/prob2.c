@@ -2,25 +2,27 @@
 #include "solver.h"
 
 /*
-This file works by having two arguments other than filename, and generates text file 
-required to be processed in this problem 2
+This file works by having three arguments other than filename, and runs the problems
+stated in Problem 2.
 
-Usage: ./prob2 L H
+Usage: ./prob2 L H NP
 L denotes the length (number of numbers) of the text file generated ("data.txt")
 H denotes the number of Hidden elements uniformly distributed in the text file
+NP denotes the maximum number of processes to be created.
 */
 
 int main(int argc, char* argv[]){
 
 	struct solution results;
 
-	if(argc < 3 || argc > 3){
-		fprintf(stderr, "%s\n", "ERROR: The number of arguments should be 3");
+	if(argc < 4 || argc > 4){
+		fprintf(stderr, "%s\n", "ERROR: The number of arguments should be 4");
 		exit(1);
 	}
 
 	int L = argvtoint(argv[1]);
 	int H = argvtoint(argv[2]);
+	int NP = argvtoint(argv[3]);
 	if(H > L){
 		fprintf(stderr, "%s\n", "ERROR: The number of hidden elements cannot be greater than file length");
 		exit(1);
@@ -36,6 +38,10 @@ int main(int argc, char* argv[]){
 
 	printf("Solving with One Process . . . .\n");
 	results = solver_oneprocess(L, data);
+	print_sol(results);
+
+	printf("Solving with DFS Approach with NP = %d . . . .\n", NP);
+	results = solver_DFS(L, data, NP);
 	print_sol(results);
 
 	free(data);
