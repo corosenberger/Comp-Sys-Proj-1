@@ -15,7 +15,7 @@ int main(int argc, char* argv[]){
 
 	struct solution results;
 
-	if(argc < 4 || argc > 4){
+	if(argc < 5 || argc > 5){
 		fprintf(stderr, "%s\n", "ERROR: The number of arguments should be 4");
 		exit(1);
 	}
@@ -23,8 +23,13 @@ int main(int argc, char* argv[]){
 	int L = argvtoint(argv[1]);
 	int H = argvtoint(argv[2]);
 	int NP = argvtoint(argv[3]);
+	int X = argvtoint(argv[4]);
 	if(H > L){
 		fprintf(stderr, "%s\n", "ERROR: The number of hidden elements cannot be greater than file length");
+		exit(1);
+	}
+	else if(X > NP){
+		fprintf(stderr, "%s\n", "ERROR: X cannot be greater than NP");
 		exit(1);
 	}
 
@@ -42,6 +47,10 @@ int main(int argc, char* argv[]){
 
 	printf("Solving with DFS Approach with NP = %d . . . .\n", NP);
 	results = solver_DFS(L, data, NP);
+	print_sol(results);
+
+	printf("Solving with Multi-Process Approach with NP = %d, X = %d . . . .\n", NP, X);
+	results = solver_multiprocess(L, data, NP, X);
 	print_sol(results);
 
 	free(data);
