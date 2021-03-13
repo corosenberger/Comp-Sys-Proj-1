@@ -12,6 +12,7 @@
 #include <sys/sem.h>	 /* semaphore functions and structs.     */
 #include <sys/shm.h>	 /* shared memory functions and structs. */
 #include <stdbool.h>
+#include <sys/time.h>
 #include "solver.h"
 
 int argvtoint(char* arg); //function to convert argument values into integer

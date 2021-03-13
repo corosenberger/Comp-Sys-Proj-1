@@ -18,7 +18,7 @@ struct solution solver_oneprocess(int len, int* data){
 		}
 		else{
 			sol.num_hidden += 1;
-			// printf("Hi I'm process 0 and I found the hidden key in position %d\n", i);
+			printf("Hi I'm process %d and I found the hidden key in position %d\n", getpid(), i);
 		}
 	}
 	sol.avg = sum / (float)len;
@@ -119,7 +119,7 @@ struct solution solver_DFS(int len, int* data, int NP){
 }
 
 void do_child_DFS(int len, int* data, int NP, int child_id, int sem_set_id, struct solution* sol){
-	// printf("Hi I'm process %d  and my parent is %d\n", getpid(), getppid());
+	printf("Hi I'm process %d  and my parent is %d\n", getpid(), getppid());
 	// check if want to spawn more children. first child always has child_id = 0
 	// base case check!
 	int pid = 0;
@@ -159,7 +159,7 @@ void do_child_DFS(int len, int* data, int NP, int child_id, int sem_set_id, stru
 		}
 		else{
 			num_hidden += 1;
-			// printf("Hi I'm process %d and I found the hidden key in position %d\n", mypid, i);
+			printf("Hi I'm process %d and I found the hidden key in position %d\n", mypid, i);
 		}
 	}
 	sem_lock(sem_set_id);
@@ -175,7 +175,7 @@ void do_child_DFS(int len, int* data, int NP, int child_id, int sem_set_id, stru
 }
 
 void do_parent_DFS(int len, int* data, int NP, int sem_set_id, struct solution* sol){
-	// printf("Hi I'm the parent process with pid %d\n", getpid());
+	printf("Hi I'm the parent process with pid %d\n", getpid());
 	// parent always processes the last segment!
 	// sleep(30);
 	int max = 0;
@@ -192,7 +192,7 @@ void do_parent_DFS(int len, int* data, int NP, int sem_set_id, struct solution* 
 		}
 		else{
 			num_hidden += 1;
-			// printf("Hi I'm process %d and I found the hidden key in position %d\n", mypid, i);
+			printf("Hi I'm process %d and I found the hidden key in position %d\n", mypid, i);
 		}
 	}
 	sem_lock(sem_set_id);
@@ -273,7 +273,7 @@ struct solution solver_multiprocess(int len, int* data, int NP, int X){
 	}
 	*num_processes += to_spawn;
 
-	// printf("Hi I'm the parent process with pid %d. I will spawn %d children!\n", getpid(), to_spawn);
+	printf("Hi I'm the parent process with pid %d. I will spawn %d children!\n", getpid(), to_spawn);
 	for(int i = 0; i < to_spawn; i++){
 	    pid = fork();
 	    if(pid == -1){
@@ -334,7 +334,7 @@ void do_child_multiprocess(int len, int* data, int NP, int X, int child_id, int 
 	*num_processes += to_spawn;
 	sem_unlock(sem_set_id);
 
-	// printf("Hi I'm process %d  and my parent is %d. I will spawn %d children!\n", getpid(), getppid(), to_spawn);
+	printf("Hi I'm process %d  and my parent is %d. I will spawn %d children!\n", getpid(), getppid(), to_spawn);
 	
 	int pid = 0;
 	int grandchild_id = current_p - 1;
@@ -373,7 +373,7 @@ void do_child_multiprocess(int len, int* data, int NP, int X, int child_id, int 
 		}
 		else{
 			num_hidden += 1;
-			// printf("Hi I'm process %d and I found the hidden key in position %d\n", mypid, i);
+			printf("Hi I'm process %d and I found the hidden key in position %d\n", mypid, i);
 		}
 	}
 	sem_lock(sem_set_id);
@@ -408,7 +408,7 @@ void do_parent_multiprocess(int len, int* data, int NP, int X, int sem_set_id, i
 		}
 		else{
 			num_hidden += 1;
-			// printf("Hi I'm process %d and I found the hidden key in position %d\n", mypid, i);
+			printf("Hi I'm process %d and I found the hidden key in position %d\n", mypid, i);
 		}
 	}
 	sem_lock(sem_set_id);
@@ -490,7 +490,7 @@ int solver_onlyH(int len, int* data, int NP, int X, int H){
 	}
 	*num_processes += to_spawn;
 
-	// printf("Hi I'm the parent process with pid %d. I will spawn %d children!\n", getpid(), to_spawn);
+	printf("Hi I'm the parent process with pid %d. I will spawn %d children!\n", getpid(), to_spawn);
 	for(int i = 0; i < to_spawn; i++){
 	    pid = fork();
 	    if(pid == -1){
@@ -551,7 +551,7 @@ void do_child_onlyH(int len, int* data, int NP, int X, int H, int child_id, int 
 	}
 	sem_unlock(sem_set_id);
 
-	// printf("Hi I'm process %d  and my parent is %d. I will spawn %d children!\n", getpid(), getppid(), to_spawn);
+	printf("Hi I'm process %d  and my parent is %d. I will spawn %d children!\n", getpid(), getppid(), to_spawn);
 	
 	int pid = 0;
 	int grandchild_id = current_p - 1;
@@ -586,11 +586,10 @@ void do_child_onlyH(int len, int* data, int NP, int X, int H, int child_id, int 
 				*num_Hfound += 1;
 				if(*num_Hfound >= H) notallfound = false;
 				sem_unlock(sem_set_id);
-				// printf("Hi I'm process %d and I found the hidden key in position %d\n", mypid, i);
+				printf("Hi I'm process %d and I found the hidden key in position %d\n", mypid, i);
 			}
 		}
 	}
-
 	if(pid != 0) { // if you spawned children. Take care of your children!
 		int child_status;
 		for(int i = 0; i < to_spawn; i++){
@@ -613,7 +612,7 @@ void do_parent_onlyH(int len, int* data, int NP, int X, int H, int sem_set_id, i
 				*num_Hfound += 1;
 				if(*num_Hfound >= H) notallfound = false;
 				sem_unlock(sem_set_id);
-				// printf("Hi I'm process %d and I found the hidden key in position %d\n", mypid, i);
+				printf("Hi I'm process %d and I found the hidden key in position %d\n", mypid, i);
 			}
 		}
 	}
